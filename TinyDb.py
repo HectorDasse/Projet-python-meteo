@@ -16,8 +16,9 @@ class TinyDb:
 
     def rechercheDate(self, TimeStampValeur):
         rq = Query()
-        if self.db.search(rq.TimeStamp == TimeStampValeur) != []:
-            return None
+        reponse = self.db.search(rq.TimeStamp == TimeStampValeur)
+        if reponse != []:
+            return reponse
         else:
-            return self.db.search(rq.TimeStamp == TimeStampValeur)
+            return None
 
