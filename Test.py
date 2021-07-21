@@ -9,5 +9,8 @@ DataBase = TinyDb()
 compteur = 1
 
 for ligne in tab:
-    DataBase.Add(compteur, TimeStamp = ligne[1], Valeur = ligne[0])
+    if DataBase.rechercheDate(ligne[1]) == None:
+        DataBase.Add(compteur, TimeStamp = ligne[1], Valeur = ligne[0])
+
     compteur += 1
+
