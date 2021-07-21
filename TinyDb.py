@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 
 
 class TinyDb:
@@ -11,6 +11,6 @@ class TinyDb:
     def Trunc(self):
         self.db.truncate()
 
-    def Add(self, Table, Valeur, Capteur):
-        self.db.insert({'type' : Table, 'Valeur' : Valeur, 'Capteur' : Capteur})
+    def Add(self, ID, Valeur, TimeStamp):
+        self.db.insert({'ID' : ID, 'Valeur' : Valeur, 'TimeStamp' : TimeStamp})
 
