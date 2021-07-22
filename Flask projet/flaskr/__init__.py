@@ -29,7 +29,6 @@ def create_app(test_config=None):
                            tempHexa[56:60], tempHexa[60:62], tempHexa[62:64], tempHexa[64:68], tempHexa[68:72], tempHexa[72:76],
                            tempHexa[76:80], tempHexa[80:82], tempHexa[82:84], tempHexa[84:86], tempHexa[86:len(tempHexa)-12], # index 18 qui nous interesse
                            tempHexa[len(tempHexa)-12:len(tempHexa)-8], tempHexa[len(tempHexa)-8:len(tempHexa)-4], tempHexa[len(tempHexa)-4:len(tempHexa)]]
-            print(tempHexaTab[18][16:18])
 
             # convertion de l'hexadécimal
             if tempHexaTab[0] is not None and tempHexaTab[0] != '':
@@ -96,7 +95,7 @@ def create_app(test_config=None):
     @app.route('/test')
     def test():
         DataBase = base.base()
-        result = DataBase.GetAll()
+        result = DataBase.GetResults(11)
         return render_template("DonneeCapteur.html", DonneeListe=result)
 
     @app.route("/")

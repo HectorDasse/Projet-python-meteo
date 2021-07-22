@@ -24,13 +24,12 @@ class base:
             return None
 
     def GetAll(self):
-        """
+        return self.db.all()
 
-         tab = []
-        for i in range (1, 6):
+    def GetResults(self, nombreResult):
+        tab = []
+        for i in range (1, nombreResult):
             indice = i * -1
             tab.append(self.db.all()[indice])
         return tab
-        """
-        return self.db.all()
 
