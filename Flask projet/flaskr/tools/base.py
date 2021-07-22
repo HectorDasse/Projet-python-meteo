@@ -33,3 +33,13 @@ class base:
             tab.append(self.db.all()[indice])
         return tab
 
+    def GetResultsGraph(self, idCapteur):
+        tab = []
+        tabValeur = [0,0]
+        requete = Query()
+        reponse = self.db.search((requete.IDCapteur == idCapteur))
+        for data in reponse:
+            tabValeur[0] = data["Temperature"]
+            tabValeur[1] = data["TimeStamp"]
+            tab.append(tabValeur)
+        return tab
