@@ -2,8 +2,19 @@ import os
 
 from flask import Flask, render_template
 from .tools import base
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 def create_app(test_config=None):
+
+    def sensor():
+        """ Function for test purposes. """
+        print("Scheduler is alive!")
+
+    sched = BackgroundScheduler(daemon=True)
+    sched.add_job(sensor,'interval',minutes=1)
+    sched.start()
+
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(

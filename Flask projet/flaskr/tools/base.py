@@ -11,16 +11,15 @@ class base:
     def Trunc(self):
         self.db.truncate()
 
-    def Add(self, ID, Valeur, TimeStamp):
-        self.db.insert({'ID' : ID, 'Valeur' : Valeur, 'TimeStamp' : TimeStamp})
+    def Add(self, idCapteur, TimeStamp, Temperature, Humidite):
+        self.db.insert({'IDCapteur' : idCapteur, 'Temperature' : Temperature, 'Humidite' : Humidite, 'TimeStamp' : TimeStamp})
 
-    def rechercheDate(self, TimeStampValeur):
-        rq = Query()
-        reponse = self.db.search(rq.TimeStamp == TimeStampValeur)
+    def rechercheDate(self, TimeStampValeur, idCapteur):
+        reponse = self.db.search(Query().fragment({'IDCapteur': idCapteur, 'TimeStamp': TimeStampValeur}))
         if reponse != []:
             return reponse
         else:
             return None
 
     def GetAll(self):
-        return self.db.all()
+            return self.db.all()
