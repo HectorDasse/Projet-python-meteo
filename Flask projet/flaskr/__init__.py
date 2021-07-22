@@ -54,7 +54,7 @@ def create_app(test_config=None):
                     rssi = - int(tempHexaTab[18][20+22*i:22+22*i], 16)
                     rssiFinal = str(rssi) + "dBm"
 
-                    DataBase.Add(id, tempDate, temperatureFinal, humidityFinal)
+                    DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltage)
                     tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
 
         print("Boucle")

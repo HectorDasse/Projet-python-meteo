@@ -7,7 +7,6 @@
         <th>Humidite</th>
         <th>Température</th>
         <th>Voltage</th>
-        <th>RSSI</th>
         <th>Date</th>
     </tr>
     {% for donnee in DonneeListe %}
@@ -15,7 +14,7 @@
             <td>{{donnee.IDCapteur}}</td>
             <td>{{donnee.Humidite}}</td>
             <td>{{donnee.Temperature}}</td>
-            <td>{{donnee.Temperature}}</td>
+            <td>{{donnee.Voltage}}</td>
             <td>{{donnee.TimeStamp}}</td>
         </tr>
 

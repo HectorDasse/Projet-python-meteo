@@ -11,11 +11,13 @@ class base:
     def Trunc(self):
         self.db.truncate()
 
-    def Add(self, idCapteur, TimeStamp, Temperature, Humidite):
-        self.db.insert({"IDCapteur" : idCapteur, "Temperature" : Temperature, "Humidite" : Humidite, "TimeStamp" : TimeStamp})
+    def Add(self, idCapteur, TimeStamp, Temperature, Humidite, voltage):
+        if self.rechercheDate(TimeStamp, idCapteur) is None:
+            self.db.insert({"IDCapteur" : idCapteur, "Temperature" : Temperature, "Humidite" : Humidite, "TimeStamp" : TimeStamp, "Voltage" : voltage})
 
     def rechercheDate(self, TimeStampValeur, idCapteur):
-        reponse = self.db.search(Query().fragment({'IDCapteur': idCapteur, 'TimeStamp': TimeStampValeur}))
+        requete = Query()
+        reponse = self.db.search((requete.IDCapteur == idCapteur) & (requete.TimeStamp == TimeStampValeur))
         if reponse != []:
             return reponse
         else:
