@@ -21,14 +21,15 @@ def create_app(test_config=None):
             tempDate = ligne[2]
             # segentation des données
             tempHexa = tempHexa.lower()
+            #tempHexa = "54 5A 00 36 24 24 04 06 02 00 00 00 06 41 88 49 07 90 00 01 12 0C 0D 02 1D 11 00 00 00 08AA C0 00 00 01 9F 04 D0 00 0E 00 01 0B 62 18 09 83 00 0E 33 00 D4 2D 2D 00 51 29 D3 0D0A"
+            #tempHexa = tempHexa.replace(" ", "")
             tempHexaTab = [tempHexa[0:4], tempHexa[4:8], tempHexa[8:12], tempHexa[12:16], tempHexa[16:24], tempHexa[24:40],
                            tempHexa[40:52],
                            tempHexa[52:56],
                            tempHexa[56:60], tempHexa[60:62], tempHexa[62:64], tempHexa[64:68], tempHexa[68:72], tempHexa[72:76],
                            tempHexa[76:80], tempHexa[80:82], tempHexa[82:84], tempHexa[84:86], tempHexa[86:len(tempHexa)-12], # index 18 qui nous interesse
                            tempHexa[len(tempHexa)-12:len(tempHexa)-8], tempHexa[len(tempHexa)-8:len(tempHexa)-4], tempHexa[len(tempHexa)-4:len(tempHexa)]]
-
-            # print(tempHexaTab)
+            print(tempHexaTab[18][16:18])
 
             # convertion de l'hexadécimal
             if tempHexaTab[0] is not None and tempHexaTab[0] != '':
@@ -59,9 +60,9 @@ def create_app(test_config=None):
 
         print("Boucle")
 
-    sched = BackgroundScheduler(daemon=True)
+    """sched = BackgroundScheduler(daemon=True)
     sched.add_job(sensor,'interval',seconds=10)
-    sched.start()
+    sched.start()"""
 
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -85,6 +86,7 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/hello')
     def hello():
+        sensor()
         return 'Hello, World!'
 
     @app.route('/trunc')
