@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 
 class TinyDb:
@@ -13,4 +13,12 @@ class TinyDb:
 
     def Add(self, ID, Valeur, TimeStamp):
         self.db.insert({'ID' : ID, 'Valeur' : Valeur, 'TimeStamp' : TimeStamp})
+
+    def rechercheDate(self, TimeStampValeur):
+        rq = Query()
+        reponse = self.db.search(rq.TimeStamp == TimeStampValeur)
+        if reponse != []:
+            return reponse
+        else:
+            return None
 
