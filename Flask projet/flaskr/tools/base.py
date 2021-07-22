@@ -22,4 +22,8 @@ class base:
             return None
 
     def GetAll(self):
-            return self.db.all()
+        tab = []
+        for i in range (5):
+            indice = i * -1
+            tab.append(self.db.all()[indice])
+        return tab
