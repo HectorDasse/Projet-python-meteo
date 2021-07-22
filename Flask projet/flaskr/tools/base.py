@@ -1,7 +1,7 @@
 from tinydb import TinyDB, Query
 
 
-class TinyDb:
+class base:
 
     db = None
 
@@ -24,4 +24,3 @@ class TinyDb:
 
     def GetAll(self):
         return self.db.all()
-

@@ -1,0 +1,17 @@
+<!doctype html>
+<title>Flaskr</title>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Valeur</th>
+        <th>TimeStand</th>
+    </tr>
+    {% for donnee in DonneeListe %}
+    <tr>
+        <td>{{donnee.ID}}</td>
+        <td>{{donnee.Valeur}}</td>
+        <td>{{donnee.TimeStamp}}</td>
+    </tr>
+    {% endfor %}
+</table>

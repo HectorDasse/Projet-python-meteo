@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template
-
+from .tools import base
 
 def create_app(test_config=None):
     # create and configure the app
@@ -30,7 +30,9 @@ def create_app(test_config=None):
 
     @app.route('/test')
     def test():
-        return render_template('base.html', user_name="Tom")
+        DataBase = base.base()
+        result = DataBase.GetAll()
+        return render_template("DonneeCapteur.html", DonneeListe=result)
 
     @app.route("/")
     def index():
