@@ -3,14 +3,19 @@
 
 <table>
     <tr>
-        <th>ID</th>
-        <th>Valeur</th>
-        <th>TimeStand</th>
+        <th>ID Capteur</th>
+        <th>Humidite</th>
+        <th>Température</th>
+        <th>Voltage</th>
+        <th>RSSI</th>
+        <th>Date</th>
     </tr>
     {% for donnee in DonneeListe %}
         <tr>
-            <td>{{donnee.ID}}</td>
-            <td>{{donnee.Valeur}}</td>
+            <td>{{donnee.IDCapteur}}</td>
+            <td>{{donnee.Humidite}}</td>
+            <td>{{donnee.Temperature}}</td>
+            <td>{{donnee.Temperature}}</td>
             <td>{{donnee.TimeStamp}}</td>
         </tr>
 
