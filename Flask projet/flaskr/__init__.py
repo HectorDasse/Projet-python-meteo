@@ -40,12 +40,11 @@ def create_app(test_config=None):
                     voltage /= 1000
                     voltageFinal = str(voltage) + "V"
                     temperatureStatus14 = int(tempHexaTab[18][14+22*i], 16)
-                    temperatureStatus15 = int(tempHexaTab[18][15+22*i], 16)
                     if temperatureStatus14 == 0:
-                        temperature = float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
+                        temperature = float(int(tempHexaTab[18][15+22*i:18+22*i], 16))
                         temperature /= 10
                     elif temperatureStatus14 == 4:
-                        temperature = - float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
+                        temperature = - float(int(tempHexaTab[18][15+22*i:18+22*i], 16))
                         temperature /= 10
                     else:
                         temperature = 'invalid'
