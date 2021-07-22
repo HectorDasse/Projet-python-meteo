@@ -43,7 +43,7 @@ def create_app(test_config=None):
                     if temperatureStatus14 == 0:
                         temperature = float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
                         temperature /= 10
-                    elif temperatureStatus14 == 1:
+                    elif temperatureStatus14 == 4:
                         temperature = - float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
                         temperature /= 10
                     else:
