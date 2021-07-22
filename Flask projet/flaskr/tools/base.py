@@ -39,7 +39,5 @@ class base:
         requete = Query()
         reponse = self.db.search((requete.IDCapteur == idCapteur))
         for data in reponse:
-            tabValeur[0] = data["Temperature"]
-            tabValeur[1] = data["TimeStamp"]
-            tab.append(tabValeur)
+            tab.append([data["Temperature"], data["TimeStamp"]])
         return tab
