@@ -38,18 +38,17 @@ def create_app(test_config=None):
                     voltage = float(int(tempHexaTab[18][10+22*i:14+22*i], 16))
                     voltage /= 1000
                     voltageFinal = str(voltage) + "V"
-                    temperatureStatus = int(tempHexaTab[18][14+22*i:16+22*i], 16)
-                    if temperatureStatus == 0:
+                    temperatureStatus14 = int(tempHexaTab[18][14+22*i], 16)
+                    temperatureStatus15 = int(tempHexaTab[18][15+22*i], 16)
+                    if temperatureStatus14 == 0:
                         temperature = float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
                         temperature /= 10
-                    elif temperatureStatus == 1:
+                    elif temperatureStatus14 == 1:
                         temperature = - float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
                         temperature /= 10
-                    elif temperatureStatus == 16 or temperatureStatus == 17:
-                        temperature = 'invalid'
                     else:
                         temperature = 'invalid'
-                    temperatureFinal = temperature if type(temperature) == "<class 'string'>" else str(temperature) + "C"
+                    temperatureFinal = temperature if type(temperature) == 'str' else str(temperature) + "C"
                     humidity = int(tempHexaTab[18][18+22*i:20+22*i], 16)
                     humidityFinal = str(humidity) + "%" if humidity < 255 else "0%"
                     rssi = - int(tempHexaTab[18][20+22*i:22+22*i], 16)
