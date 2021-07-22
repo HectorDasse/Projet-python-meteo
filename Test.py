@@ -1,5 +1,6 @@
 import requests
 from TinyDb import TinyDb
+import struct
 
 r = requests.get("http://app.objco.com:8099/?account=NTB37PKZUG&limit=5")
 
@@ -11,7 +12,7 @@ tagsData = []
 
 for ligne in tab:
     if DataBase.rechercheDate(ligne[1]) == None:
-        DataBase.Add(compteur, TimeStamp = ligne[1], Valeur = ligne[0])
+        DataBase.Add(compteur, IDStation = ligne[0], Valeur = ligne[1], TimeStamp = ligne[2])
 
         tempId = ligne[0]
         tempHexa = ligne[1]
@@ -25,18 +26,32 @@ for ligne in tab:
                        tempHexa[76:80], tempHexa[80:82], tempHexa[82:84], tempHexa[84:86], tempHexa[86:len(tempHexa)-12], # index 18 qui nous interesse
                        tempHexa[len(tempHexa)-12:len(tempHexa)-8], tempHexa[len(tempHexa)-8:len(tempHexa)-4], tempHexa[len(tempHexa)-4:len(tempHexa)]]
 
-        print(tempHexaTab)
+        # print(tempHexaTab)
 
         # convertion de l'hexadécimal
         if tempHexaTab[0] is not None and tempHexaTab[0] != '':
             for i in range (int(tempHexaTab[16])):
-                # TODO passer les int lignes 35,36 en float et ligne 38 en int signé
-                tempTagsData = [tempHexaTab[18][0+22*i:8+22*i],
-                                int(tempHexaTab[18][8+22*i:10+22*i], 16),
-                                int(tempHexaTab[18][10+22*i:14+22*i], 16),
-                                int(tempHexaTab[18][14+22*i:18+22*i], 16),
-                                int(tempHexaTab[18][18+22*i:20+22*i], 16),
-                                int(tempHexaTab[18][20+22*i:22+22*i], 16)]
+                id = str(tempHexaTab[18][0+22*i:8+22*i])
+                status = str(tempHexaTab[18][8+22*i:10+22*i])
+                voltage = float(int(tempHexaTab[18][10+22*i:14+22*i], 16))
+                voltage /= 1000
+                voltageFinal = str(voltage) + "V"
+                temperatureStatus = int(tempHexaTab[18][14+22*i:16+22*i], 16)
+                if temperatureStatus == 0:
+                    temperature = float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
+                    temperature /= 10
+                elif temperatureStatus == 1:
+                    temperature = - float(int(tempHexaTab[18][16+22*i:18+22*i], 16))
+                    temperature /= 10
+                elif temperatureStatus == 16 or temperatureStatus == 17:
+                    temperature = 'invalid'
+                temperatureFinal = temperature if type(temperature) == "<class 'string'>" else str(temperature) + "°C"
+                humidity = int(tempHexaTab[18][18+22*i:20+22*i], 16)
+                humidityFinal = str(humidity) + "%" if humidity < 255 else "0%"
+                rssi = - int(tempHexaTab[18][20+22*i:22+22*i], 16)
+                rssiFinal = str(rssi) + "dBm"
+
+                tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
                 tagsData.append(tempTagsData)
 
     compteur += 1
