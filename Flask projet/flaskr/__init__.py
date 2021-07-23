@@ -111,13 +111,14 @@ def create_app(test_config=None):
         "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
         "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
 
-    @app.route('/GraphiqueTemperature')
+    @app.route('/GraphiqueTemperature', methods = ['POST'])
     def GraphiqueTemperature():
         labels = []
         values = []
-
+        result = request.form
+        id = result['ID']
         DataBase = base.base()
-        tab = DataBase.GetResultsGraph("06182660")
+        tab = DataBase.GetResultsGraph(id)
         for data in tab:
             labels.append(data[1])
             temp = data[0]
@@ -125,15 +126,18 @@ def create_app(test_config=None):
 
         bar_labels = labels
         bar_values = values
-        return render_template('bar_chart.html', title='Capteur : 06182660', max=100, labels=bar_labels, values=bar_values)
+        return render_template('bar_chart.html', title='Capteur : ' + id, max=100, labels=bar_labels, values=bar_values, min = -50)
 
-    @app.route('/GraphiqueHumidite')
+    @app.route('/GraphiqueHumidite', methods = ['POST'])
     def GraphiqueHumidite():
         labels = []
         values = []
 
+        result = request.form
+        id = result['ID']
+
         DataBase = base.base()
-        tab = DataBase.GetResultsGraph("06182660")
+        tab = DataBase.GetResultsGraph(id)
         for data in tab:
             labels.append(data[1])
             temp = data[2]
@@ -141,7 +145,7 @@ def create_app(test_config=None):
 
         bar_labels = labels
         bar_values = values
-        return render_template('bar_chart.html', title='Capteur : 06182660', max=100, labels=bar_labels, values=bar_values)
+        return render_template('bar_chart.html', title='Capteur : ' + id, max=100, labels=bar_labels, values=bar_values, min = 0)
 
     @app.route('/saveCapteur', methods = ['POST'])
     def saveCapteur():

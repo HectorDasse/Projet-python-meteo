@@ -42,7 +42,7 @@ class base:
         for data in reponse:
             dateInput = data["TimeStamp"]
             dateInput = dateInput.replace(" GMT",'')
-            dateOutput = datetime.datetime.strptime(dateInput, '%a, %d %b %Y %H:%M:%S') # détection du format initial
+            dateOutput = datetime.strptime(dateInput, '%a, %d %b %Y %H:%M:%S') # détection du format initial
             dateOutput = dateOutput.strftime('%d/%m/%Y %H:%M:%S') # formatage de la date
             tab.append([data["Temperature"], dateOutput, data["Humidite"]])
         return tab
