@@ -50,7 +50,7 @@ def create_app(test_config=None):
                         temperature = 'invalid'
                     temperatureFinal = temperature if type(temperature) == 'str' else str(temperature) + "C"
                     humidity = int(tempHexaTab[18][18+payloadSize*i:20+payloadSize*i], 16)
-                    humidityFinal = str(humidity) + "%" if humidity == 255 else "0%"
+                    humidityFinal = str(humidity) + "%" if humidity < 255 else "0%"
                     rssi = - int(tempHexaTab[18][20+payloadSize*i:22+payloadSize*i], 16)
                     rssiFinal = str(rssi) + "dBm"
 
