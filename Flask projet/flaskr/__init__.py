@@ -54,6 +54,7 @@ def create_app(test_config=None):
                     rssi = - int(tempHexaTab[18][20+22*i:22+22*i], 16)
                     rssiFinal = str(rssi) + "dBm"
 
+                    DataBase.SaveCapteur(id, "")
                     DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltage)
                     tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
 
@@ -142,12 +143,28 @@ def create_app(test_config=None):
         bar_values = values
         return render_template('bar_chart.html', title='Capteur : 06182660', max=100, labels=bar_labels, values=bar_values)
 
-    @app.route('/resultat', methods = ['POST'])
-    def resultat():
+    @app.route('/saveCapteur', methods = ['POST'])
+    def saveCapteur():
+        result = request.form
+        id = result['ID']
+        nom = result['Nom']
+        DataBase = base.base()
+        DataBase.SaveCapteur(id, nom)
+
+        return render_template('tabCapteur.html', CapteurListe = DataBase.getCapteur())
+
+    @app.route("/capteur", methods= ["POST"])
+    def capteur():
         result = request.form
         id = result['ID']
         nom = result['Nom']
 
-        return
+        return render_template('Capteur.html', ID = id, Nom = nom)
+
+    @app.route("/TabCapteur")
+    def TabCapteur():
+        DataBase = base.base()
+        return render_template('tabCapteur.html', CapteurListe = DataBase.getCapteur())
+
 
     return app
