@@ -56,7 +56,11 @@ def create_app(test_config=None):
 
                     DataBase.SaveCapteur(id, "")
                     DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltageFinal)
+<<<<<<< HEAD
                     tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
+=======
+                    #tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
+>>>>>>> 70f628d93ae8d2ebdf51c43bec158d749556e43e
 
         print("Boucle")
 
