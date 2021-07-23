@@ -4,9 +4,11 @@ from datetime import datetime
 class base:
 
     db = None
+    dbCapteur = None
 
     def __init__(self):
         self.db = TinyDB('db.json')
+        self.dbCapteur = TinyDB('dbCapteur.json')
 
     def Trunc(self):
         self.db.truncate()
@@ -44,3 +46,22 @@ class base:
             dateOutput = dateOutput.strftime('%d/%m/%Y %H:%M:%S') # formatage de la date
             tab.append([data["Temperature"], dateOutput, data["Humidite"]])
         return tab
+
+    def SaveCapteur(self, ID, Nom):
+        requete = Query()
+        reponse = self.dbCapteur.search((requete.IDCapteur == ID))
+        if reponse != []:
+            #update
+            if Nom == "":
+                return
+            self.dbCapteur.update({'Nom': Nom}, requete.IDCapteur == ID)
+        else:
+            #add
+            self.dbCapteur.insert({'IDCapteur': ID, 'Nom': Nom})
+
+    def getCapteur(self):
+        return self.dbCapteur.all()
+
+    def getCapteurById(self, ID):
+        requete = Query()
+        return self.dbCapteur.search((requete.IDCapteur == ID))

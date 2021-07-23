@@ -1,0 +1,23 @@
+<!doctype html>
+<title>Flaskr</title>
+
+<table>
+    <tr>
+        <th>ID Capteur</th>
+        <th>Nom</th>
+    </tr>
+    {% for capteur in CapteurListe %}
+    <tr>
+        <td>{{capteur.IDCapteur}}</td>
+        <td>{{capteur.Nom}}</td>
+        <td>
+            <form action="http://localhost:5000/capteur" method="post">
+                <input type="text" name="ID" hidden value={{capteur.IDCapteur}} />
+                <input type="text" name="Nom" hidden value={{capteur.Nom}} />
+                <input type="submit" value="Modifier" />
+            </form>
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
