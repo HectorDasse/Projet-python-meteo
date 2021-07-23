@@ -1,5 +1,5 @@
 from tinydb import TinyDB, Query
-
+from datetime import datetime
 
 class base:
 
@@ -38,5 +38,9 @@ class base:
         requete = Query()
         reponse = self.db.search((requete.IDCapteur == idCapteur))
         for data in reponse:
-            tab.append([data["Temperature"], data["TimeStamp"], data["Humidite"]])
+            dateInput = data["TimeStamp"]
+            dateInput = dateInput.replace(" GMT",'')
+            dateOutput = datetime.datetime.strptime(dateInput, '%a, %d %b %Y %H:%M:%S') # détection du format initial
+            dateOutput = dateOutput.strftime('%d/%m/%Y %H:%M:%S') # formatage de la date
+            tab.append([data["Temperature"], dateOutput, data["Humidite"]])
         return tab
