@@ -57,3 +57,7 @@ class base:
 
     def getCapteur(self):
         return self.dbCapteur.all()
+
+    def getCapteurById(self, ID):
+        requete = Query()
+        return self.dbCapteur.search((requete.IDCapteur == ID))
