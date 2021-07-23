@@ -56,6 +56,16 @@ def create_app(test_config=None):
 
                     DataBase.SaveCapteur(id, "")
                     DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltageFinal)
+
+                    #controle des seuils pour les alertes
+                    capteur = DataBase.getCapteurById(id)
+                    if temperature < capteur[0]['TemperatureMin'] or temperature > capteur[0]['TemperatureMax']:
+                        #envoie un mail
+                        print("Probleme température")
+                    
+
+
+
                     tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
 
         print("Boucle")
