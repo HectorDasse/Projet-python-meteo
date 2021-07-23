@@ -152,18 +152,22 @@ def create_app(test_config=None):
         result = request.form
         id = result['ID']
         nom = result['Nom']
+        TemperatureMin = result['TemperatureMin']
+        TemperatureMax = result['TemperatureMax']
+        HumiditeMin = result['HumiditeMin']
+        HumiditeMax = result['HumiditeMax']
         DataBase = base.base()
-        DataBase.SaveCapteur(id, nom)
+        DataBase.SaveCapteur(id, nom, TemperatureMin, TemperatureMax, HumiditeMin, HumiditeMax)
 
         return render_template('tabCapteur.html', CapteurListe = DataBase.getCapteur())
 
     @app.route("/capteur", methods= ["POST"])
     def capteur():
         result = request.form
+        DataBase = base.base()
         id = result['ID']
-        nom = result['Nom']
-
-        return render_template('Capteur.html', ID = id, Nom = nom)
+        capteur = DataBase.getCapteurById(id)
+        return render_template('Capteur.html', ID = id, Nom = capteur[0]['Nom'], TemperatureMin = capteur[0]['TemperatureMin'], TemperatureMax = capteur[0]['TemperatureMax'], HumiditeMin = capteur[0]['HumiditeMin'], HumiditeMax = capteur[0]['HumiditeMax'])
 
     @app.route("/TabCapteur")
     def TabCapteur():

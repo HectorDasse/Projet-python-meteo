@@ -1,1 +1,1 @@
-{"_default": {"1": {"IDCapteur": "62182233", "Nom": "toto"}, "2": {"IDCapteur": "06182660", "Nom": "Capteur 1"}}}
+{"_default": {"1": {"IDCapteur": "62182233", "Nom": "toto", "TemperatureMin": "5", "TemperatureMax": "45", "HumiditeMin": "50", "HumiditeMax": "100"}, "2": {"IDCapteur": "06182660", "Nom": "", "TemperatureMin": 0, "TemperatureMax": 0, "HumiditeMin": 0, "HumiditeMax": 0}}}

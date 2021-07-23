@@ -47,17 +47,19 @@ class base:
             tab.append([data["Temperature"], dateOutput, data["Humidite"]])
         return tab
 
-    def SaveCapteur(self, ID, Nom):
+    def SaveCapteur(self, ID, Nom = "", minTemp = None, maxTemp = None, minHumidite = None, maxHumidite = None):
         requete = Query()
         reponse = self.dbCapteur.search((requete.IDCapteur == ID))
         if reponse != []:
             #update
             if Nom == "":
                 return
-            self.dbCapteur.update({'Nom': Nom}, requete.IDCapteur == ID)
+            self.dbCapteur.update({'Nom': Nom, 'TemperatureMin' : minTemp, 'TemperatureMax' : maxTemp, 'HumiditeMin' : minHumidite, 'HumiditeMax' : maxHumidite}, requete.IDCapteur == ID)
         else:
             #add
-            self.dbCapteur.insert({'IDCapteur': ID, 'Nom': Nom})
+            self.dbCapteur.insert({'IDCapteur': ID, 'Nom': Nom, 'TemperatureMin' : 0, 'TemperatureMax' : 0, 'HumiditeMin' : 0, 'HumiditeMax' : 0})
+
+
 
     def getCapteur(self):
         return self.dbCapteur.all()
