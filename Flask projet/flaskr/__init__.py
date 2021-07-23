@@ -22,8 +22,7 @@ def create_app(test_config=None):
             tempDate = ligne[2]
             # segentation des données
             tempHexa = tempHexa.lower()
-            #tempHexa = "54 5A 00 36 24 24 04 06 02 00 00 00 06 41 88 49 07 90 00 01 12 0C 0D 02 1D 11 00 00 00 08AA C0 00 00 01 9F 04 D0 00 0E 00 01 0B 62 18 09 83 00 0E 33 00 D4 2D 2D 00 51 29 D3 0D0A"
-            #tempHexa = tempHexa.replace(" ", "")
+
             tempHexaTab = [tempHexa[0:4], tempHexa[4:8], tempHexa[8:12], tempHexa[12:16], tempHexa[16:24], tempHexa[24:40],
                            tempHexa[40:52],
                            tempHexa[52:56],
@@ -33,30 +32,31 @@ def create_app(test_config=None):
 
             # convertion de l'hexadécimal
             if tempHexaTab[0] is not None and tempHexaTab[0] != '':
+                payloadSize = int(tempHexaTab[17], 16) * 2
                 for i in range (int(tempHexaTab[16])):
-                    id = str(tempHexaTab[18][0+22*i:8+22*i])
-                    status = str(tempHexaTab[18][8+22*i:10+22*i])
-                    voltage = float(int(tempHexaTab[18][10+22*i:14+22*i], 16))
+                    id = str(tempHexaTab[18][0+payloadSize*i:8+payloadSize*i])
+                    status = str(tempHexaTab[18][8+payloadSize*i:10+payloadSize*i])
+                    voltage = float(int(tempHexaTab[18][10+payloadSize*i:14+payloadSize*i], 16))
                     voltage /= 1000
                     voltageFinal = str(voltage) + "V"
-                    temperatureStatus14 = int(tempHexaTab[18][14+22*i], 16)
-                    if temperatureStatus14 == 0:
-                        temperature = float(int(tempHexaTab[18][15+22*i:18+22*i], 16))
+                    temperatureStatus = int(tempHexaTab[18][14+payloadSize*i], 16)
+                    if temperatureStatus == 0:
+                        temperature = float(int(tempHexaTab[18][15+payloadSize*i:18+payloadSize*i], 16))
                         temperature /= 10
-                    elif temperatureStatus14 == 4:
-                        temperature = - float(int(tempHexaTab[18][15+22*i:18+22*i], 16))
+                    elif temperatureStatus == 4:
+                        temperature = - float(int(tempHexaTab[18][15+payloadSize*i:18+payloadSize*i], 16))
                         temperature /= 10
                     else:
                         temperature = 'invalid'
                     temperatureFinal = temperature if type(temperature) == 'str' else str(temperature) + "C"
-                    humidity = int(tempHexaTab[18][18+22*i:20+22*i], 16)
-                    humidityFinal = str(humidity) + "%" if humidity < 255 else "0%"
-                    rssi = - int(tempHexaTab[18][20+22*i:22+22*i], 16)
+                    humidity = int(tempHexaTab[18][18+payloadSize*i:20+payloadSize*i], 16)
+                    humidityFinal = str(humidity) + "%" if humidity == 255 else "0%"
+                    rssi = - int(tempHexaTab[18][20+payloadSize*i:22+payloadSize*i], 16)
                     rssiFinal = str(rssi) + "dBm"
 
                     DataBase.SaveCapteur(id, "")
-                    DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltage)
-                    tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
+                    DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltageFinal)
+                    #tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
 
         print("Boucle")
 
