@@ -1,7 +1,7 @@
 import os
 import io
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from .tools import base
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -69,23 +69,6 @@ def create_app(test_config=None):
         SECRET_KEY='dev'
     )
 
-    labels = [
-        'JAN', 'FEB', 'MAR', 'APR',
-        'MAY', 'JUN', 'JUL', 'AUG',
-        'SEP', 'OCT', 'NOV', 'DEC'
-    ]
-
-    values = [
-        967.67, 1190.89, 1079.75, 1349.19,
-        2328.91, 2504.28, 2873.83, 4764.87,
-        4349.29, 6458.30, 9907, 16297
-    ]
-
-    colors = [
-        "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-        "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-        "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
-
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -100,8 +83,8 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
+    @app.route('/GetDonnee')
+    def GetDonnee():
         sensor()
         return 'Hello, World!'
 
@@ -110,8 +93,8 @@ def create_app(test_config=None):
         base.base().Trunc()
         return 'Trunc'
 
-    @app.route('/test')
-    def test():
+    @app.route('/Historique')
+    def Historique():
         DataBase = base.base()
         result = DataBase.GetResults(11)
         return render_template("DonneeCapteur.html", DonneeListe=result)
@@ -127,11 +110,10 @@ def create_app(test_config=None):
         "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
         "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
 
-    @app.route('/bar')
-    def bar():
+    @app.route('/GraphiqueTemperature')
+    def GraphiqueTemperature():
         labels = []
         values = []
-        temp = ""
 
         DataBase = base.base()
         tab = DataBase.GetResultsGraph("06182660")
@@ -140,9 +122,32 @@ def create_app(test_config=None):
             temp = data[0]
             values.append(temp.replace("C", ""))
 
-        bar_labels=labels
-        bar_values=values
+        bar_labels = labels
+        bar_values = values
         return render_template('bar_chart.html', title='Capteur : 06182660', max=100, labels=bar_labels, values=bar_values)
 
+    @app.route('/GraphiqueHumidite')
+    def GraphiqueHumidite():
+        labels = []
+        values = []
+
+        DataBase = base.base()
+        tab = DataBase.GetResultsGraph("06182660")
+        for data in tab:
+            labels.append(data[1])
+            temp = data[2]
+            values.append(temp.replace("%", ""))
+
+        bar_labels = labels
+        bar_values = values
+        return render_template('bar_chart.html', title='Capteur : 06182660', max=100, labels=bar_labels, values=bar_values)
+
+    @app.route('/resultat', methods = ['POST'])
+    def resultat():
+        result = request.form
+        id = result['ID']
+        nom = result['Nom']
+
+        return
 
     return app

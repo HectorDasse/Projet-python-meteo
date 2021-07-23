@@ -35,9 +35,8 @@ class base:
 
     def GetResultsGraph(self, idCapteur):
         tab = []
-        tabValeur = [0,0]
         requete = Query()
         reponse = self.db.search((requete.IDCapteur == idCapteur))
         for data in reponse:
-            tab.append([data["Temperature"], data["TimeStamp"]])
+            tab.append([data["Temperature"], data["TimeStamp"], data["Humidite"]])
         return tab
