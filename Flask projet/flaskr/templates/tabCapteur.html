@@ -5,6 +5,9 @@
     <tr>
         <th>ID Capteur</th>
         <th>Nom</th>
+        <th>Modifier</th>
+        <th>Température</th>
+        <th>Humidité</th>
     </tr>
     {% for capteur in CapteurListe %}
     <tr>
@@ -15,6 +18,20 @@
                 <input type="text" name="ID" hidden value={{capteur.IDCapteur}} />
                 <input type="text" name="Nom" hidden value={{capteur.Nom}} />
                 <input type="submit" value="Modifier" />
+            </form>
+        </td>
+        <td>
+            <form action="http://localhost:5000/GraphiqueTemperature" method="post">
+                <input type="text" name="ID" hidden value={{capteur.IDCapteur}} />
+                <input type="text" name="Nom" hidden value={{capteur.Nom}} />
+                <input type="submit" value="Afficher" />
+            </form>
+        </td>
+        <td>
+            <form action="http://localhost:5000/GraphiqueHumidite" method="post">
+                <input type="text" name="ID" hidden value={{capteur.IDCapteur}} />
+                <input type="text" name="Nom" hidden value={{capteur.Nom}} />
+                <input type="submit" value="Afficher" />
             </form>
         </td>
     </tr>
