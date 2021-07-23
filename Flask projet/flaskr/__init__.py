@@ -55,7 +55,7 @@ def create_app(test_config=None):
                     rssiFinal = str(rssi) + "dBm"
 
                     DataBase.SaveCapteur(id, "")
-                    DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltage)
+                    DataBase.Add(id, tempDate, temperatureFinal, humidityFinal, voltageFinal)
                     tempTagsData = [id, status, voltageFinal, temperatureFinal, humidityFinal, rssiFinal]
 
         print("Boucle")
@@ -170,5 +170,17 @@ def create_app(test_config=None):
         DataBase = base.base()
         return render_template('tabCapteur.html', CapteurListe = DataBase.getCapteur())
 
+    @app.route("/getTemp")
+    def getTemp():
+        ville = request.args.get('Ville')
+        temp = 0
+        if ville != None:
+            url = "https://api.openweathermap.org/data/2.5/weather?q=" + ville + "&appid=acb39e08e1429f96311f0a99078ca8d2&units=metric"
+            r = requests.get(url)
+
+            tab = r.json()
+            temp = tab["main"]["temp"]
+
+        return render_template('Temperature.html', Ville = ville, Temp = temp)
 
     return app

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="http://localhost:5000/getTemp" method="get">
+        <label>Ville</label> : <input type="text" name="Ville" value= {{Ville}} />
+        <input type="submit" value="Envoyer" />
+    </form>
+
+    <p>Température : {{Temp}}</p>
+</body>
+</html>
