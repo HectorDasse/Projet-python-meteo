@@ -62,7 +62,7 @@ def create_app(test_config=None):
                     if temperature < capteur[0]['TemperatureMin'] or temperature > capteur[0]['TemperatureMax']:
                         #envoie un mail
                         print("Probleme température")
-                    
+
 
 
 
